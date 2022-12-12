@@ -41,6 +41,7 @@ public class EmployeeService {
             pivot.setBirthday(employee.getBirthday());
             pivot.setGithubUser(employee.getGithubUser());
             pivot.setStartingDate(employee.getStartingDate());
+            pivot.setPosition(employee.getPosition());
             return this.saveEmployee(pivot);
         }else{
             return null;
