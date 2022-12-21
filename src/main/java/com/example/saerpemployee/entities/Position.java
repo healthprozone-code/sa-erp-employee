@@ -1,4 +1,4 @@
-package com.example.saerpemployee.documents;
+package com.example.saerpemployee.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

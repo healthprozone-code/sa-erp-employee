@@ -1,6 +1,6 @@
 package com.example.saerpemployee.controllers;
 
-import com.example.saerpemployee.documents.Position;
+import com.example.saerpemployee.entities.Position;
 import com.example.saerpemployee.dtos.MessageErrorDto;
 import com.example.saerpemployee.services.PositionService;
 import io.swagger.v3.oas.annotations.Operation;

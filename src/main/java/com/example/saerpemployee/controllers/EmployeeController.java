@@ -1,8 +1,8 @@
 package com.example.saerpemployee.controllers;
 
 
-import com.example.saerpemployee.documents.Employee;
-import com.example.saerpemployee.documents.Position;
+import com.example.saerpemployee.entities.Employee;
+import com.example.saerpemployee.entities.Position;
 import com.example.saerpemployee.dtos.MessageErrorDto;
 import com.example.saerpemployee.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
