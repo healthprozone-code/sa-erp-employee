@@ -1,10 +1,10 @@
-package com.example.saerpemployee.controllers;
+package com.sa.erp.controllers;
 
 
-import com.example.saerpemployee.entities.Employee;
-import com.example.saerpemployee.entities.Position;
-import com.example.saerpemployee.dtos.MessageErrorDto;
-import com.example.saerpemployee.services.EmployeeService;
+import com.sa.erp.entities.Employee;
+import com.sa.erp.entities.Position;
+import com.sa.erp.dtos.MessageErrorDto;
+import com.sa.erp.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

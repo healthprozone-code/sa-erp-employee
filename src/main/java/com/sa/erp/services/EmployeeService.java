@@ -1,7 +1,7 @@
-package com.example.saerpemployee.services;
+package com.sa.erp.services;
 
-import com.example.saerpemployee.entities.Employee;
-import com.example.saerpemployee.repositories.EmployeeRepository;
+import com.sa.erp.entities.Employee;
+import com.sa.erp.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

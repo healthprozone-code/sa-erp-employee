@@ -1,6 +1,6 @@
-package com.example.saerpemployee.repositories;
+package com.sa.erp.repositories;
 
-import com.example.saerpemployee.entities.Employee;
+import com.sa.erp.entities.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

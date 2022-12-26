@@ -1,4 +1,4 @@
-package com.example.saerpemployee;
+package com.sa.erp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

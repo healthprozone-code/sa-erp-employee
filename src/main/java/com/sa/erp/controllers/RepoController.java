@@ -1,9 +1,8 @@
-package com.example.saerpemployee.controllers;
+package com.sa.erp.controllers;
 
-import com.example.saerpemployee.dtos.MessageErrorDto;
-import com.example.saerpemployee.entities.Position;
-import com.example.saerpemployee.entities.Repo;
-import com.example.saerpemployee.services.RepoService;
+import com.sa.erp.dtos.MessageErrorDto;
+import com.sa.erp.entities.Repo;
+import com.sa.erp.services.RepoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

@@ -1,6 +1,6 @@
-package com.example.saerpemployee.repositories;
+package com.sa.erp.repositories;
 
-import com.example.saerpemployee.entities.Repo;
+import com.sa.erp.entities.Repo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface RepoRepository extends MongoRepository<Repo, String> {
