@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
@@ -38,10 +40,13 @@ public class EmployeeController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/")
     public ResponseEntity<?> getAllEmployees(){
+        log.info("request from getAllEmployees");
         List<Employee> aux = employeeService.getAllEmployees();
         if(!aux.isEmpty()){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in getAllEmployees");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Employees no found or registered"));
         }
     }
@@ -59,10 +64,14 @@ public class EmployeeController {
             content = @Content(schema = @Schema(type = "String")))
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable("id")String id){
+        log.info("request from getEmployeeById");
+        log.debug("requestParam ID: {}", id);
         Optional<Employee> aux = employeeService.getEmployeeById(id);
         if(aux.isPresent()){
+            log.debug("responseBody: {} ",aux.get().toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux.get());
         }else{
+            log.info("error in getEmployeeById");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Employee no found or registered"));
         }
     }
@@ -85,10 +94,14 @@ public class EmployeeController {
 
     @GetMapping("/{firstname}/{lastname}")
     public ResponseEntity<?> getEmployeeByFirtsNameAndLastName(@PathVariable("firstname")String firstName, @PathVariable("lastname")String lastName){
+        log.info("request from getEmployeeByFirtsNameAndLastName");
+        log.debug("requestParam firstName: {} and requestParam lastName: {}",firstName, lastName);
         Optional<Employee> aux = employeeService.getEmployeeByFirstNameAndLastName(firstName, lastName);
         if(aux.isPresent()){
+            log.debug("responseBody: {} ",aux.get().toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux.get());
         }else{
+            log.info("error in getEmployeeByFirtsNameAndLastName");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
@@ -102,10 +115,14 @@ public class EmployeeController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @PostMapping("/")
     public ResponseEntity<?> saveEmployee(@RequestBody Employee employee){
+        log.info("request from saveEmployee");
+        log.debug("requestBody: {}", employee);
         Employee aux = employeeService.saveEmployee(employee);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         }else{
+            log.info("error in saveEmployee");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
@@ -123,10 +140,14 @@ public class EmployeeController {
             content = @Content(schema = @Schema(implementation = Position.class), mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable("id")String id, @RequestBody Employee employee){
+        log.info("request from updateEmployee");
+        log.debug("requestParam id: {} ,requestBody: {}", id, employee);
         Employee aux = employeeService.updateEmployee(id, employee);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in updateEmployee");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
@@ -142,10 +163,14 @@ public class EmployeeController {
             content = @Content(schema = @Schema(type = "String")))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("id")String id){
+        log.info("request from deleteEmployee");
+        log.debug("requestParam id: {}", id);
         Employee aux = employeeService.deleteEmployee(id);
         if (aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }else{
+            log.info("error in deleteEmployee");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }

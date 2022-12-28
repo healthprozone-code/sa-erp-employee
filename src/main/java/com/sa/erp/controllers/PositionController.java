@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/position")
 @Tag(name = "Position", description = "Position services")
@@ -38,9 +40,12 @@ public class PositionController {
     @GetMapping("/")
     public ResponseEntity<?> getAllPositions(){
         List<Position> aux = positionService.getAllPositions();
+        log.info("request from getAllPosition");
         if(!aux.isEmpty()){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in getAllPosition");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Positions no found or registered"));
         }
     }
@@ -58,10 +63,14 @@ public class PositionController {
             content = @Content(schema = @Schema(type = "String")))
     @GetMapping("/{id}")
     public ResponseEntity<?> getPositionBiId(@PathVariable("id")String id){
+        log.info("request from getPositionById");
+        log.debug("requestParam ID: {}", id);
         Optional<Position> aux = positionService.getPositionById(id);
         if(aux.isPresent()){
+            log.debug("responseBody: {} ",aux.get().toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux.get());
         }else{
+            log.info("error in getPositionById");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Position no found or registered"));
         }
     }
@@ -76,9 +85,13 @@ public class PositionController {
     @PostMapping("/")
     public ResponseEntity<?> savePosition(@RequestBody Position position){
         Position aux = positionService.savePosition(position);
+        log.info("request from savePosition");
+        log.debug("requestbody: {}", position);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         }else{
+            log.info("error in savePosition");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Position not saved"));
         }
     }
@@ -97,9 +110,13 @@ public class PositionController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePosition(@PathVariable("id")String id, @RequestBody Position position){
         Position aux = positionService.updatePosition(id, position);
+        log.info("request from getPositionById");
+        log.debug("requestbody: {}, and requestParam: {}", position, id);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in updatePosition");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Position not updated"));
         }
     }
@@ -115,10 +132,14 @@ public class PositionController {
             content = @Content(schema = @Schema(type = "String")))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePosition(@PathVariable("id")String id){
+        log.info("request from deletePosition");
+        log.debug("requestbody: {}", id);
         Position aux = positionService.deletePosition(id);
         if (aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in deletePosition");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }

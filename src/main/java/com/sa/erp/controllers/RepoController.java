@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/repo")
 @Tag(name = "Repo", description = "Repo services")
@@ -38,10 +40,13 @@ public class RepoController {
     })
     @GetMapping("/")
     public ResponseEntity<?> getAllRepos(){
+        log.info("request from getAllRepos");
         List<Repo> aux = repoService.getAllRepos();
         if(!aux.isEmpty()){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in getAllRepos");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Repos no found or registered"));
         }
     }
@@ -59,10 +64,14 @@ public class RepoController {
             content = @Content(schema = @Schema(type = "String")))
     @GetMapping("/{id}")
     public ResponseEntity<?> getRepoByID(@PathVariable("id")String id){
+        log.info("request from getRepoByID");
+        log.debug("requestParam ID: {}", id);
         Optional<Repo> aux = repoService.getRepoByID(id);
         if(aux.isPresent()){
+            log.debug("responseBody: {} ",aux.get().toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in getRepoByID");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Repo no found or registered"));
         }
     }
@@ -78,10 +87,14 @@ public class RepoController {
             content = @Content(schema = @Schema(implementation = Repo.class), mediaType = "application/json"))
     @PostMapping("/")
     public ResponseEntity<?> saveRepo(@RequestBody Repo repo){
+        log.info("request from saveRepo");
+        log.debug("requestBody ID: {}", repo);
         Repo aux = repoService.saveRepo(repo);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         }else{
+            log.info("error in saveRepo");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Repo not saved"));
         }
     }
@@ -101,10 +114,14 @@ public class RepoController {
             content = @Content(schema = @Schema(implementation = Repo.class), mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRepo(@PathVariable("id")String id, @RequestBody Repo repo){
+        log.info("request from updateRepo");
+        log.debug("requestBody ID: {}, requestParam: {}", repo, id);
         Repo aux = repoService.updateRepo(id, repo);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in updateRepo");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Repo not update"));
         }
     }
@@ -121,11 +138,15 @@ public class RepoController {
             in = ParameterIn.PATH, name = "id",
             content = @Content(schema = @Schema(type = "String")))
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> updateRepo(@PathVariable("id")String id){
+    public ResponseEntity<?> deleteRepo(@PathVariable("id")String id){
+        log.info("request from deleteRepo");
+        log.debug("requestParam: {}", id);
         Repo aux = repoService.deleteRepo(id);
         if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
+            log.info("error in deleteRepo");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Repo not deleted"));
         }
     }
