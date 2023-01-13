@@ -175,4 +175,24 @@ public class EmployeeController {
         }
     }
 
+    @Operation(summary = "Get the nearest Birthday Employee", method = "get")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the nearest Birthday Employee",
+                    content = {
+                            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Employee.class)))}),
+            @ApiResponse(responseCode = "204", description = "Employee not found or registered",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
+    @GetMapping("/nearestbirthdayemployee")
+    public ResponseEntity<?> getNearestBirthdayEmployee(){
+        log.info("request from getNearestBirthdayEmployee");
+        Employee aux = employeeService.getNextBirthdayPerson();
+        if(aux!=null){
+            log.debug("responseBody: {} ",aux.toString());
+            return ResponseEntity.status(HttpStatus.OK).body(aux);
+        }else{
+            log.info("error in getNearestBirthdayEmployee");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Employee no found or registered"));
+        }
+    }
+
 }
