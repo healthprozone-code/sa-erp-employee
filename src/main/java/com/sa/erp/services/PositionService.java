@@ -5,6 +5,7 @@ import com.sa.erp.repositories.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ public class PositionService {
     }
 
     public Position savePosition(Position position){
+        position.setCreateDate(LocalDate.now());
+        position.setUpdateDate(LocalDate.now());
         return positionRepo.save(position);
     }
 
@@ -31,6 +34,7 @@ public class PositionService {
         if(aux.isPresent()){
             Position pivot = aux.get();
             pivot.setName(position.getName());
+            pivot.setUpdateDate(LocalDate.now());
             return this.savePosition(pivot);
         }
         return null;
@@ -41,6 +45,7 @@ public class PositionService {
         if(aux.isPresent()){
             Position pivot = aux.get();
             pivot.setEnable(false);
+            pivot.setUpdateDate(LocalDate.now());
             return this.savePosition(pivot);
         }
         return null;

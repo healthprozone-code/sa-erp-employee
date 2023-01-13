@@ -5,6 +5,7 @@ import com.sa.erp.repositories.RepoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ public class RepoService {
     }
 
     public Repo saveRepo(Repo repo){
+        repo.setCreateDate(LocalDate.now());
+        repo.setUpdateDate(LocalDate.now());
         return repoRepo.save(repo);
     }
 
@@ -32,6 +35,7 @@ public class RepoService {
             Repo pivot = aux.get();
             pivot.setName(repo.getName());
             pivot.setUrl(repo.getUrl());
+            pivot.setUpdateDate(LocalDate.now());
             return this.saveRepo(pivot);
         }else{
             return null;
@@ -43,6 +47,7 @@ public class RepoService {
         if(aux.isPresent()){
             Repo pivot = aux.get();
             pivot.setEnable(false);
+            pivot.setUpdateDate(LocalDate.now());
             return this.saveRepo(pivot);
         }else{
             return null;
