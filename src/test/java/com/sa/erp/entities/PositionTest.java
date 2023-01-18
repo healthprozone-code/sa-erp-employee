@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,6 +55,12 @@ public class PositionTest {
         assertEquals(aux.getUpdateDate(), LocalDate.now());
         assertEquals(aux.getCreateDate(), LocalDate.now());
         assertEquals(aux.isEnable(), true);
+    }
+
+    @Test
+    public void positionToString(){
+        Position aux = new Position("id","name", true, LocalDate.of(2023, Month.JANUARY, 18), LocalDate.of(2023, Month.JANUARY, 18));
+        assertEquals(aux.toString(), "Position(id=id, name=name, enable=true, createDate=2023-01-18, updateDate=2023-01-18)");
     }
 
 }

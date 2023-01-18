@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,6 +67,13 @@ public class RepoTest {
         assertEquals(aux.getCreateDate(),LocalDate.now());
         assertEquals(aux.isEnable(),true);
         assertEquals(aux.getEmployeeList(),null);
+    }
+
+    @Test
+    public void repoToString(){
+        Repo aux = new Repo("id", "name", "https://www.google.com", true, null, LocalDate.of(2023, Month.JANUARY, 18), LocalDate.of(2023, Month.JANUARY, 18));
+        System.out.println(aux);
+        assertEquals(aux.toString(),"Repo(id=id, name=name, url=https://www.google.com, enable=true, employeeList=null, createDate=2023-01-18, updateDate=2023-01-18)");
     }
 
 }
