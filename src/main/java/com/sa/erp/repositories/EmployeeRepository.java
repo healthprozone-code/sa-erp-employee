@@ -19,6 +19,8 @@ public interface EmployeeRepository extends MongoRepository<Employee, String> {
             "      phone: 1,\n" +
             "      email: 1,\n" +
             "      birthday: 1,\n" +
+            "      githubUser: 1,\n" +
+            "      startingDate: 1,\n" +
             "      enable: 1,\n" +
             "      createDate: 1,\n" +
             "      updateDate: 1,\n" +

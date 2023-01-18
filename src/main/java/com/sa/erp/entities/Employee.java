@@ -26,9 +26,7 @@ public class Employee {
     private String phone;
     private String email;
     private LocalDate birthday;
-    @Field("github_user")
     private String githubUser;
-    @Field("starting_date")
     private LocalDate startingDate;
     private boolean enable;
     private List<LocalDate> vacationDays;
