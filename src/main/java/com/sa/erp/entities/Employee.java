@@ -1,18 +1,17 @@
 package com.sa.erp.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Document(collection = "employee")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -32,7 +31,8 @@ public class Employee {
     @Field("starting_date")
     private LocalDate startingDate;
     private boolean enable;
-    @DBRef
+    private List<LocalDate> vacationDays;
+    private boolean enableVacation;
     private Position position;
     private LocalDate createDate;
     private LocalDate updateDate;
