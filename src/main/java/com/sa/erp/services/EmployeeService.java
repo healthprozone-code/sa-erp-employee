@@ -32,6 +32,8 @@ public class EmployeeService {
     }
 
     public Employee saveEmployee(Employee employee){
+        employee.setUpdateDate(LocalDate.now());
+        employee.setCreateDate(LocalDate.now());
         return employeeRepo.save(employee);
     }
 
@@ -47,6 +49,8 @@ public class EmployeeService {
             pivot.setGithubUser(employee.getGithubUser());
             pivot.setStartingDate(employee.getStartingDate());
             pivot.setPosition(employee.getPosition());
+            pivot.setUpdateDate(LocalDate.now());
+            pivot.setCreateDate(LocalDate.now());
             return this.saveEmployee(pivot);
         }else{
             return null;
@@ -90,6 +94,14 @@ public class EmployeeService {
                 nextBirthdayPerson.setBirthday(nextBirthdayPerson.getBirthday().withYear(currentYear+1));
             }
             log.debug("db: {} ",nextBirthdayPerson);
+        }
+        return nextBirthdayPerson;
+    }
+    public Employee getNextBirthdayPersonWithMongo(){
+        Optional<Employee> employeeAux= employeeRepo.GetNextBirthdayEmployee2();
+        Employee nextBirthdayPerson=null;
+        if(employeeAux.isPresent()){
+            nextBirthdayPerson=employeeAux.get();
         }
         return nextBirthdayPerson;
     }

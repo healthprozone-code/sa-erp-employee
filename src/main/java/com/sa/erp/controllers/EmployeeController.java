@@ -182,10 +182,10 @@ public class EmployeeController {
                             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Employee.class)))}),
             @ApiResponse(responseCode = "204", description = "Employee not found or registered",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
-    @GetMapping("/nearestbirthdayemployee")
+    @GetMapping("/nextbirthday")
     public ResponseEntity<?> getNearestBirthdayEmployee(){
         log.info("request from getNearestBirthdayEmployee");
-        Employee aux = employeeService.getNextBirthdayPerson();
+        Employee aux = employeeService.getNextBirthdayPersonWithMongo();
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
