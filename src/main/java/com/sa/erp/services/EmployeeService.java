@@ -67,36 +67,6 @@ public class EmployeeService {
             return null;
         }
     }
-
-    public Employee getNextBirthdayPerson(){
-        List<Employee> employeeList = this.getAllEmployees();
-        int currentYear = LocalDate.now().getYear();
-        Employee nextBirthdayPerson = null;
-        LocalDate currentDay= LocalDate.now();
-        if(employeeList!=null&&employeeList.size()>0) {
-            log.debug("employeeList size: {} ",employeeList.size());
-            for (Employee employee : employeeList) {
-                log.trace("employee Birthday: {} ",employee.getBirthday());
-                employee.setBirthday(employee.getBirthday().withYear(currentYear));
-                log.trace("employee Birthday change: {} ",employee.getBirthday());
-            }
-            employeeList = employeeList.stream().sorted(Comparator.comparing(Employee::getBirthday)).collect(Collectors.toList());
-            for (Employee employee : employeeList) {
-                if (employee.getBirthday().isAfter(currentDay) || employee.getBirthday().isEqual(currentDay)) {
-                    nextBirthdayPerson = employee;
-                }
-                if (nextBirthdayPerson != null) {
-                    break;
-                }
-            }
-            if(nextBirthdayPerson==null&&employeeList.size()>0){
-                nextBirthdayPerson = employeeList.get(0);
-                nextBirthdayPerson.setBirthday(nextBirthdayPerson.getBirthday().withYear(currentYear+1));
-            }
-            log.debug("db: {} ",nextBirthdayPerson);
-        }
-        return nextBirthdayPerson;
-    }
     public Employee getNextBirthdayPersonWithMongo(){
         Optional<Employee> employeeAux= employeeRepo.GetNextBirthdayEmployee2();
         Employee nextBirthdayPerson=null;
