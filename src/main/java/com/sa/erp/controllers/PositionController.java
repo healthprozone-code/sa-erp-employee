@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,10 +40,14 @@ public class PositionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/")
     public ResponseEntity<?> getAllPositions(){
+        StopWatch sw = new StopWatch();
+        sw.start();
         List<Position> aux = positionService.getAllPositions();
         log.info("request from getAllPosition");
         if(!aux.isEmpty()){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in getAllPosition");
@@ -63,11 +68,15 @@ public class PositionController {
             content = @Content(schema = @Schema(type = "String")))
     @GetMapping("/{id}")
     public ResponseEntity<?> getPositionBiId(@PathVariable("id")String id){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getPositionById");
         log.debug("requestParam ID: {}", id);
         Optional<Position> aux = positionService.getPositionById(id);
         if(aux.isPresent()){
             log.debug("responseBody: {} ",aux.get().toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux.get());
         }else{
             log.info("error in getPositionById");
@@ -84,11 +93,15 @@ public class PositionController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @PostMapping("/")
     public ResponseEntity<?> savePosition(@RequestBody Position position){
+        StopWatch sw = new StopWatch();
+        sw.start();
         Position aux = positionService.savePosition(position);
         log.info("request from savePosition");
         log.debug("requestbody: {}", position);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         }else{
             log.info("error in savePosition");
@@ -109,11 +122,15 @@ public class PositionController {
             content = @Content(schema = @Schema(implementation = Position.class), mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePosition(@PathVariable("id")String id, @RequestBody Position position){
+        StopWatch sw = new StopWatch();
+        sw.start();
         Position aux = positionService.updatePosition(id, position);
         log.info("request from getPositionById");
         log.debug("requestbody: {}, and requestParam: {}", position, id);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in updatePosition");
@@ -132,11 +149,15 @@ public class PositionController {
             content = @Content(schema = @Schema(type = "String")))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePosition(@PathVariable("id")String id){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from deletePosition");
         log.debug("requestbody: {}", id);
         Position aux = positionService.deletePosition(id);
         if (aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in deletePosition");

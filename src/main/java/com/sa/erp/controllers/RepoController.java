@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,10 +41,14 @@ public class RepoController {
     })
     @GetMapping("/")
     public ResponseEntity<?> getAllRepos(){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getAllRepos");
         List<Repo> aux = repoService.getAllRepos();
         if(!aux.isEmpty()){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in getAllRepos");
@@ -64,11 +69,15 @@ public class RepoController {
             content = @Content(schema = @Schema(type = "String")))
     @GetMapping("/{id}")
     public ResponseEntity<?> getRepoByID(@PathVariable("id")String id){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getRepoByID");
         log.debug("requestParam ID: {}", id);
         Optional<Repo> aux = repoService.getRepoByID(id);
         if(aux.isPresent()){
             log.debug("responseBody: {} ",aux.get().toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in getRepoByID");
@@ -87,11 +96,15 @@ public class RepoController {
             content = @Content(schema = @Schema(implementation = Repo.class), mediaType = "application/json"))
     @PostMapping("/")
     public ResponseEntity<?> saveRepo(@RequestBody Repo repo){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from saveRepo");
         log.debug("requestBody ID: {}", repo);
         Repo aux = repoService.saveRepo(repo);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         }else{
             log.info("error in saveRepo");
@@ -114,11 +127,15 @@ public class RepoController {
             content = @Content(schema = @Schema(implementation = Repo.class), mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRepo(@PathVariable("id")String id, @RequestBody Repo repo){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from updateRepo");
         log.debug("requestBody ID: {}, requestParam: {}", repo, id);
         Repo aux = repoService.updateRepo(id, repo);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in updateRepo");
@@ -139,11 +156,15 @@ public class RepoController {
             content = @Content(schema = @Schema(type = "String")))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRepo(@PathVariable("id")String id){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from deleteRepo");
         log.debug("requestParam: {}", id);
         Repo aux = repoService.deleteRepo(id);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in deleteRepo");

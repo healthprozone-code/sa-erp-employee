@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,10 +41,14 @@ public class EmployeeController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/")
     public ResponseEntity<?> getAllEmployees(){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getAllEmployees");
         List<Employee> aux = employeeService.getAllEmployees();
         if(!aux.isEmpty()){
-            log.debug("responseBody: {} ",aux.toString());
+            log.debug("responseBody: {}  ms",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in getAllEmployees");
@@ -64,11 +69,15 @@ public class EmployeeController {
             content = @Content(schema = @Schema(type = "String")))
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable("id")String id){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getEmployeeById");
         log.debug("requestParam ID: {}", id);
         Optional<Employee> aux = employeeService.getEmployeeById(id);
         if(aux.isPresent()){
             log.debug("responseBody: {} ",aux.get().toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux.get());
         }else{
             log.info("error in getEmployeeById");
@@ -94,11 +103,15 @@ public class EmployeeController {
 
     @GetMapping("/{firstname}/{lastname}")
     public ResponseEntity<?> getEmployeeByFirtsNameAndLastName(@PathVariable("firstname")String firstName, @PathVariable("lastname")String lastName){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getEmployeeByFirtsNameAndLastName");
         log.debug("requestParam firstName: {} and requestParam lastName: {}",firstName, lastName);
         Optional<Employee> aux = employeeService.getEmployeeByFirstNameAndLastName(firstName, lastName);
         if(aux.isPresent()){
             log.debug("responseBody: {} ",aux.get().toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux.get());
         }else{
             log.info("error in getEmployeeByFirtsNameAndLastName");
@@ -115,11 +128,15 @@ public class EmployeeController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @PostMapping("/")
     public ResponseEntity<?> saveEmployee(@RequestBody Employee employee){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from saveEmployee");
         log.debug("requestBody: {}", employee);
         Employee aux = employeeService.saveEmployee(employee);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         }else{
             log.info("error in saveEmployee");
@@ -140,11 +157,15 @@ public class EmployeeController {
             content = @Content(schema = @Schema(implementation = Position.class), mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable("id")String id, @RequestBody Employee employee){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from updateEmployee");
         log.debug("requestParam id: {} ,requestBody: {}", id, employee);
         Employee aux = employeeService.updateEmployee(id, employee);
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in updateEmployee");
@@ -163,11 +184,15 @@ public class EmployeeController {
             content = @Content(schema = @Schema(type = "String")))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("id")String id){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from deleteEmployee");
         log.debug("requestParam id: {}", id);
         Employee aux = employeeService.deleteEmployee(id);
         if (aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }else{
             log.info("error in deleteEmployee");
@@ -184,10 +209,14 @@ public class EmployeeController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/nextbirthday")
     public ResponseEntity<?> getNearestBirthdayEmployee(){
+        StopWatch sw = new StopWatch();
+        sw.start();
         log.info("request from getNearestBirthdayEmployee");
         Employee aux = employeeService.getNextBirthdayPersonWithMongo();
         if(aux!=null){
             log.debug("responseBody: {} ",aux.toString());
+            sw.stop();
+            log.debug("time of performance {}",sw.getTotalTimeMillis());
             return ResponseEntity.status(HttpStatus.OK).body(aux);
         }else{
             log.info("error in getNearestBirthdayEmployee");
