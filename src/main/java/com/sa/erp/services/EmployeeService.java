@@ -19,24 +19,50 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepo;
 
+    /**
+     *
+     * @return a list of employee saved
+     */
     public List<Employee> getAllEmployees(){
         return employeeRepo.findAll();
     }
 
+    /**
+     *
+     * @param id of the employee to find
+     * @return Optional with teh employee finded
+     */
     public Optional<Employee> getEmployeeById(String id){
         return employeeRepo.findById(id);
     }
 
+    /**
+     *
+     * @param firstName first name of the employe to find
+     * @param lastName last name of the employee to fined
+     * @return Optional with teh employee finded
+     */
     public Optional<Employee> getEmployeeByFirstNameAndLastName(String firstName, String lastName){
         return employeeRepo.findByFirstNameAndLastName(firstName, lastName);
     }
 
+    /**
+     *
+     * @param employee to save
+     * @return employee saved
+     */
     public Employee saveEmployee(Employee employee){
         employee.setUpdateDate(LocalDate.now());
         employee.setCreateDate(LocalDate.now());
         return employeeRepo.save(employee);
     }
 
+    /**
+     *
+     * @param id of the employee to update
+     * @param employee data of the employee to update
+     * @return employee updated
+     */
     public Employee updateEmployee(String id, Employee employee){
         Optional<Employee> aux = this.getEmployeeById(id);
         if(aux.isPresent()){
@@ -57,6 +83,11 @@ public class EmployeeService {
         }
     }
 
+    /**
+     *
+     * @param id of the employee to delete
+     * @return employee deleted
+     */
     public Employee deleteEmployee(String id){
         Optional<Employee> aux = this.getEmployeeById(id);
         if(aux.isPresent()){
@@ -67,6 +98,11 @@ public class EmployeeService {
             return null;
         }
     }
+
+    /**
+     *
+     * @return the employee with the next birthday
+     */
     public Employee getNextBirthdayPersonWithMongo(){
         Optional<Employee> employeeAux= employeeRepo.GetNextBirthdayEmployee2();
         Employee nextBirthdayPerson=null;

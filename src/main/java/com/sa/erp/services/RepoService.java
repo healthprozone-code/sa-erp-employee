@@ -15,20 +15,40 @@ public class RepoService {
     @Autowired
     private RepoRepository repoRepo;
 
-    public List<Repo> getAllRepos(){
-        return repoRepo.findAll();
-    }
+    /**
+     *
+     * @return a list of all repos saved
+     */
+        public List<Repo> getAllRepos(){
+            return repoRepo.findAll();
+        }
 
+    /**
+     *
+     * @param id of the repo to find
+     * @return a Optional<Repo></> of the repo finded
+     */
     public Optional<Repo> getRepoByID(String id){
         return repoRepo.findById(id);
     }
 
+    /**
+     *
+     * @param repo to saves
+     * @return repo saved
+     */
     public Repo saveRepo(Repo repo){
         repo.setCreateDate(LocalDate.now());
         repo.setUpdateDate(LocalDate.now());
         return repoRepo.save(repo);
     }
 
+    /**
+     *
+     * @param id of the repo to update
+     * @param repo body with the data to update
+     * @return repo updated
+     */
     public Repo updateRepo(String id, Repo repo){
         Optional<Repo> aux = this.getRepoByID(id);
         if(aux.isPresent()){
@@ -42,6 +62,11 @@ public class RepoService {
         }
     }
 
+    /**
+     *
+     * @param id of the repo to delete
+     * @return repo deleted
+     */
     public Repo deleteRepo(String id){
         Optional<Repo> aux = this.getRepoByID(id);
         if(aux.isPresent()){
