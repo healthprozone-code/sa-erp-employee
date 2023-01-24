@@ -1,17 +1,15 @@
 package com.sa.erp.controllers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.sa.erp.entities.Employee;
 import com.sa.erp.entities.Position;
-import com.sa.erp.services.PositionService;
+import com.sa.erp.services.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -22,20 +20,21 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.time.Month;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @AutoConfigureMockMvc
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-//@WebMvcTest(PositionController.class)
-//@ActiveProfiles(resolver = MyActiveProfilesResolver.class)
-public class PositionControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class EmployeeControllerTest {
 
-    private static final String URL="/api/position";
+    private static final String URL="/api/employee";
 
     @Autowired
-    private PositionService positionService;
+    private EmployeeService employeeService;
 
-    private Position auxTestPosition;
+    private Employee auxTestEmployee;
 
     private String auxTestID;
 
@@ -44,13 +43,14 @@ public class PositionControllerTest {
 
     @BeforeEach
     public void initialize(){
-        this.auxTestPosition = this.positionService.savePosition(new Position("63cef5abf543871f44a318bc", "Dev", true, LocalDate.now(),LocalDate.now()));
-        this.auxTestID = this.auxTestPosition.getId();
-
+        this.auxTestEmployee = this.employeeService.saveEmployee(new Employee("id","ana", "lopez", "2288554499", "ana@gmail.com", LocalDate.of(1995, Month.AUGUST,2),
+                "@lopezA", LocalDate.of(2022,Month.JULY,15), true, null,false,
+                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now()));
+        this.auxTestID = this.auxTestEmployee.getId();
     }
 
     @Test
-    public void testGetAllPosition() throws Exception {
+    public void testGetAllEmployee() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .get(URL.concat("/"))
@@ -58,9 +58,7 @@ public class PositionControllerTest {
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
             MvcResult mockResult = result.andReturn();
-
             MockHttpServletResponse response =mockResult.getResponse();
-
             log.debug(response.getContentAsString());
         }catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +66,7 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testPositionById() throws Exception {
+    public void testEmployeeById() throws Exception {
 
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
@@ -88,11 +86,11 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testSavePosition() throws Exception {
+    public void testSaveEmployee() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .post(URL.concat("/"))
-                            .content(asJsonString(this.auxTestPosition))
+                            .content(asJsonString(this.auxTestEmployee))
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isCreated());
@@ -107,14 +105,14 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testUpdatePosition() throws Exception {
+    public void testUpdateEmployee() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .put(URL.concat("/{id}"),this.auxTestID)
-                        .content(asJsonString(this.auxTestPosition))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                            .content(asJsonString(this.auxTestEmployee))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
@@ -127,10 +125,28 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testDeletePosition() throws Exception {
+    public void testDeleteEmployee() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .delete(URL.concat("/{id}"),this.auxTestID)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetNextBirthdayPersonWithMongo() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/nextbirthday"))
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
@@ -155,8 +171,5 @@ public class PositionControllerTest {
         }
     }
 
+
 }
-
-
-
-

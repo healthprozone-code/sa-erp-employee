@@ -1,17 +1,14 @@
 package com.sa.erp.controllers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sa.erp.entities.Position;
-import com.sa.erp.services.PositionService;
+import com.sa.erp.entities.Repo;
+import com.sa.erp.services.RepoService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -23,19 +20,19 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @Slf4j
 @AutoConfigureMockMvc
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-//@WebMvcTest(PositionController.class)
-//@ActiveProfiles(resolver = MyActiveProfilesResolver.class)
-public class PositionControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class RepoControllerTest {
 
-    private static final String URL="/api/position";
+    private static final String URL="/api/repo";
 
     @Autowired
-    private PositionService positionService;
+    private RepoService repoService;
 
-    private Position auxTestPosition;
+    private Repo auxTestRepo;
 
     private String auxTestID;
 
@@ -44,13 +41,12 @@ public class PositionControllerTest {
 
     @BeforeEach
     public void initialize(){
-        this.auxTestPosition = this.positionService.savePosition(new Position("63cef5abf543871f44a318bc", "Dev", true, LocalDate.now(),LocalDate.now()));
-        this.auxTestID = this.auxTestPosition.getId();
-
+        this.auxTestRepo = this.repoService.saveRepo(new Repo(null, "hubio","https://github.com/hubio",true, null, LocalDate.now(), LocalDate.now()));
+        this.auxTestID = this.auxTestRepo.getId();
     }
 
     @Test
-    public void testGetAllPosition() throws Exception {
+    public void testGetAllRepo() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .get(URL.concat("/"))
@@ -58,9 +54,7 @@ public class PositionControllerTest {
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
             MvcResult mockResult = result.andReturn();
-
             MockHttpServletResponse response =mockResult.getResponse();
-
             log.debug(response.getContentAsString());
         }catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +62,7 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testPositionById() throws Exception {
+    public void testRepoById() throws Exception {
 
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
@@ -88,11 +82,11 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testSavePosition() throws Exception {
+    public void testSaveRepo() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .post(URL.concat("/"))
-                            .content(asJsonString(this.auxTestPosition))
+                            .content(asJsonString(this.auxTestRepo))
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isCreated());
@@ -107,14 +101,14 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testUpdatePosition() throws Exception {
+    public void testUpdateRepo() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .put(URL.concat("/{id}"),this.auxTestID)
-                        .content(asJsonString(this.auxTestPosition))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                            .content(asJsonString(this.auxTestRepo))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
@@ -127,7 +121,7 @@ public class PositionControllerTest {
     }
 
     @Test
-    public void testDeletePosition() throws Exception {
+    public void testDeleteRepo() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .delete(URL.concat("/{id}"),this.auxTestID)
@@ -156,7 +150,3 @@ public class PositionControllerTest {
     }
 
 }
-
-
-
-
