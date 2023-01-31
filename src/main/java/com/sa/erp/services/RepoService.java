@@ -15,6 +15,9 @@ public class RepoService {
     @Autowired
     private RepoRepository repoRepo;
 
+    @Autowired
+    private RepoHistoryService repoHistoryService;
+
     /**
      *
      * @return a list of all repos saved
@@ -52,6 +55,7 @@ public class RepoService {
     public Repo updateRepo(String id, Repo repo){
         Optional<Repo> aux = this.getRepoByID(id);
         if(aux.isPresent()){
+            this.repoHistoryService.saveRepoHistory(aux.get());
             Repo pivot = aux.get();
             pivot.setName(repo.getName());
             pivot.setUrl(repo.getUrl());
@@ -70,6 +74,8 @@ public class RepoService {
     public Repo deleteRepo(String id){
         Optional<Repo> aux = this.getRepoByID(id);
         if(aux.isPresent()){
+            this.repoHistoryService.saveRepoHistory(aux.get());
+            this.repoHistoryService.saveRepoHistory(aux.get());
             Repo pivot = aux.get();
             pivot.setEnable(false);
             pivot.setUpdateDate(LocalDate.now());

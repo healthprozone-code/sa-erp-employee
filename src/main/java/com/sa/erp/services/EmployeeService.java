@@ -19,6 +19,9 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepo;
 
+    @Autowired
+    private EmployeeHistoryServices employeeHistoryServices;
+
     /**
      *
      * @return a list of employee saved
@@ -66,6 +69,7 @@ public class EmployeeService {
     public Employee updateEmployee(String id, Employee employee){
         Optional<Employee> aux = this.getEmployeeById(id);
         if(aux.isPresent()){
+            this.employeeHistoryServices.saveEmployeeHistory(aux.get());
             Employee pivot = aux.get();
             pivot.setFirstName(employee.getFirstName());
             pivot.setLastName(employee.getLastName());
@@ -91,6 +95,7 @@ public class EmployeeService {
     public Employee deleteEmployee(String id){
         Optional<Employee> aux = this.getEmployeeById(id);
         if(aux.isPresent()){
+            this.employeeHistoryServices.saveEmployeeHistory(aux.get());
             Employee pivot = aux.get();
             pivot.setEnable(false);
             return this.saveEmployee(pivot);
