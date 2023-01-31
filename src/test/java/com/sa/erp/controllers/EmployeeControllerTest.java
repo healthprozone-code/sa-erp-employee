@@ -65,6 +65,22 @@ public class EmployeeControllerTest {
         }
     }
 
+    /*@Test
+    public void testGetAllEmployeeError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/"))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+            MockHttpServletResponse response =mockResult.getResponse();
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
     @Test
     public void testEmployeeById() throws Exception {
 
@@ -75,6 +91,60 @@ public class EmployeeControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testEmployeeByIdError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/{id}"),"gf")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testEmployeeByFirstNameAndLastName() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/{firstname}/{lastname}"),"ana","lopez")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testEmployeeByFirstNameAndLastNameError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/{firstname}/{lastname}"),"fr","fr")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
@@ -105,6 +175,25 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    public void testSaveEmployeeError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .post(URL.concat("/"))
+                            .content("")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testUpdateEmployee() throws Exception {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
@@ -121,7 +210,25 @@ public class EmployeeControllerTest {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    public void testUpdateEmployeeError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .put(URL.concat("/{id}"),"fs")
+                            .content(asJsonString(this.auxTestEmployee))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -132,6 +239,24 @@ public class EmployeeControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeleteEmployeeError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .delete(URL.concat("/{id}"),"fjr")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
@@ -159,6 +284,24 @@ public class EmployeeControllerTest {
             e.printStackTrace();
         }
     }
+
+    /*@Test
+    public void testGetNextBirthdayPersonWithMongoError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/nextbirthday"))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
 
     public static String asJsonString(final Object obj) {
         try {

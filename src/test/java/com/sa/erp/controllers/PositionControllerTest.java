@@ -69,7 +69,6 @@ public class PositionControllerTest {
 
     @Test
     public void testPositionById() throws Exception {
-
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .get(URL.concat("/{id}"),this.auxTestID)
@@ -78,9 +77,23 @@ public class PositionControllerTest {
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
             MvcResult mockResult = result.andReturn();
-
             MockHttpServletResponse response =mockResult.getResponse();
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Test
+    public void testPositionByIdError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/{id}"),"djd")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+            MvcResult mockResult = result.andReturn();
+            MockHttpServletResponse response =mockResult.getResponse();
             log.debug(response.getContentAsString());
         }catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +109,25 @@ public class PositionControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isCreated());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSavePositionError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .post(URL.concat("/"))
+                            .content("")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
@@ -123,7 +155,25 @@ public class PositionControllerTest {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    public void testUpdatePositionError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .put(URL.concat("/{id}"),"dd")
+                            .content(asJsonString(this.auxTestPosition))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -134,6 +184,24 @@ public class PositionControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeletePositionError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .delete(URL.concat("/{id}"),"sks")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();

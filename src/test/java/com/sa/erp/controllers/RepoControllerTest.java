@@ -63,7 +63,6 @@ public class RepoControllerTest {
 
     @Test
     public void testRepoById() throws Exception {
-
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .get(URL.concat("/{id}"),this.auxTestID)
@@ -72,9 +71,23 @@ public class RepoControllerTest {
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
             MvcResult mockResult = result.andReturn();
-
             MockHttpServletResponse response =mockResult.getResponse();
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Test
+    public void testRepoByIdError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .get(URL.concat("/{id}"),"dkd")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent());
+            MvcResult mockResult = result.andReturn();
+            MockHttpServletResponse response =mockResult.getResponse();
             log.debug(response.getContentAsString());
         }catch (Exception e) {
             e.printStackTrace();
@@ -90,6 +103,25 @@ public class RepoControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isCreated());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSaveRepoError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .post(URL.concat("/"))
+                            .content("")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
@@ -117,7 +149,25 @@ public class RepoControllerTest {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    public void testUpdateRepoError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .put(URL.concat("/{id}"),"sjs")
+                            .content(asJsonString(this.auxTestRepo))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -128,6 +178,24 @@ public class RepoControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
+            MvcResult mockResult = result.andReturn();
+
+            MockHttpServletResponse response =mockResult.getResponse();
+
+            log.debug(response.getContentAsString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeleteRepoError() throws Exception {
+        try{
+            ResultActions result=mockMvc.perform( MockMvcRequestBuilders
+                            .delete(URL.concat("/{id}"),"djd")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
             MvcResult mockResult = result.andReturn();
 
             MockHttpServletResponse response =mockResult.getResponse();
