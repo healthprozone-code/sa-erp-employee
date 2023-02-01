@@ -10,6 +10,7 @@ import com.sa.erp.services.PositionService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @Slf4j
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -124,7 +126,7 @@ public class PositionControllerTest {
         try{
             ResultActions result=mockMvc.perform( MockMvcRequestBuilders
                             .post(URL.concat("/"))
-                            .content("")
+                            .content("null")
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());

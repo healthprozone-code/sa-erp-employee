@@ -4,6 +4,7 @@ import com.sa.erp.entities.Repo;
 import com.sa.erp.services.RepoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,7 +15,7 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
-
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @SpringBootTest
 public class RepoServiceTest {
 

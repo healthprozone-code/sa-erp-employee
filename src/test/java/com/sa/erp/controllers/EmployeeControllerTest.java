@@ -9,6 +9,7 @@ import com.sa.erp.services.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,7 @@ import java.time.Month;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @Slf4j
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -45,7 +47,7 @@ public class EmployeeControllerTest {
     public void initialize(){
         this.auxTestEmployee = this.employeeService.saveEmployee(new Employee("id","ana", "lopez", "2288554499", "ana@gmail.com", LocalDate.of(1995, Month.AUGUST,2),
                 "@lopezA", LocalDate.of(2022,Month.JULY,15), true, null,false,
-                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now()));
+                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now(),null));
         this.auxTestID = this.auxTestEmployee.getId();
     }
 

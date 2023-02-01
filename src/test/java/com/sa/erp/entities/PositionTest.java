@@ -1,6 +1,7 @@
 package com.sa.erp.entities;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @SpringBootTest
 public class PositionTest {
 

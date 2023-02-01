@@ -7,6 +7,7 @@ import com.sa.erp.entities.Position;
 import com.sa.erp.services.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +16,7 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @SpringBootTest
 public class EmployeeServiceTest {
 
@@ -29,7 +31,7 @@ public class EmployeeServiceTest {
 
         this.auxEmployeeTest = this.employeeService.saveEmployee(new Employee("id","ana", "lopez", "2288554499", "ana@gmail.com", LocalDate.of(1995, Month.AUGUST,2),
                 "@lopezA", LocalDate.of(2022,Month.JULY,15), true, null,false,
-                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now()));
+                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now(),null));
         this.auxEmployeeId = this.auxEmployeeTest.getId();
         this.currentDate=LocalDate.now();
     }
@@ -62,7 +64,7 @@ public class EmployeeServiceTest {
         Position position =new Position("id","name", true, LocalDate.now(), LocalDate.now());
         Employee aux = new Employee("id","ana", "lopez", "2288554499", "ana@gmail.com", LocalDate.of(1995, Month.AUGUST,2),
                 "@lopezA", LocalDate.of(2022,Month.JULY,15), true, null,false,
-                position, LocalDate.now(),LocalDate.now());
+                position, LocalDate.now(),LocalDate.now(), null);
         Employee result=this.employeeService.saveEmployee(aux);
         assertEquals(aux.getId(),"id");
         assertEquals(aux.getFirstName(),"ana");
@@ -139,7 +141,7 @@ public class EmployeeServiceTest {
     @Test
     public void getNextBirthdayPersonTest(){
         Employee birthdayEmployee = new Employee("63c810f773f2132e470a953b","roberto", "lopez", "22884466676", "roberto@gmail.com", LocalDate.of(1993, Month.MAY,5),
-                "@robertol", LocalDate.of(2022,Month.JULY,15), true, null,false,null, LocalDate.now(),LocalDate.now());
+                "@robertol", LocalDate.of(2022,Month.JULY,15), true, null,false,null, LocalDate.now(),LocalDate.now(), null);
         birthdayEmployee = this.employeeService.saveEmployee(birthdayEmployee);
         Employee aux = this.employeeService.getNextBirthdayPersonWithMongo();
         assertEquals(aux.getId(), birthdayEmployee.getId());

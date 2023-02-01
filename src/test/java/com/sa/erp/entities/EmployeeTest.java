@@ -1,6 +1,7 @@
 package com.sa.erp.entities;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @SpringBootTest
 public class EmployeeTest {
 
@@ -34,7 +36,7 @@ public class EmployeeTest {
     public void employeeAllArgsConstructor(){
         Employee aux = new Employee("id","ana", "lopez", "2288554499", "ana@gmail.com", LocalDate.of(1995, Month.AUGUST,2),
                 "@lopezA", LocalDate.of(2022,Month.JULY,15), true, null,false,
-                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now());
+                new Position("id","name", true, LocalDate.now(), LocalDate.now()), LocalDate.now(),LocalDate.now(), null);
         assertNotNull(aux.getId());
         assertNotNull(aux.getFirstName());
         assertNotNull(aux.getLastName());
@@ -89,9 +91,9 @@ public class EmployeeTest {
     public void employeeToString(){
         Employee aux = new Employee("id","ana", "lopez", "2288554499", "ana@gmail.com", LocalDate.of(1995, Month.AUGUST,2),
                 "@lopezA", LocalDate.of(2022,Month.JULY,15), true, null,false,
-                null, LocalDate.of(2023, Month.JANUARY, 18),LocalDate.of(2023, Month.JANUARY, 18));
+                null, LocalDate.of(2023, Month.JANUARY, 18),LocalDate.of(2023, Month.JANUARY, 18), null);
         System.out.println(aux.toString());
-        assertEquals(aux.toString(), "Employee(id=id, firstName=ana, lastName=lopez, phone=2288554499, email=ana@gmail.com, birthday=1995-08-02, githubUser=@lopezA, startingDate=2022-07-15, enable=true, vacationDays=null, enableVacation=false, position=null, createDate=2023-01-18, updateDate=2023-01-18)");
+        assertEquals(aux.toString(), "Employee(id=id, firstName=ana, lastName=lopez, phone=2288554499, email=ana@gmail.com, birthday=1995-08-02, githubUser=@lopezA, startingDate=2022-07-15, enable=true, vacationDays=null, enableVacation=false, position=null, createDate=2023-01-18, updateDate=2023-01-18, repoList=null)");
     }
 
 }

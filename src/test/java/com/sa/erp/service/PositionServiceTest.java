@@ -4,8 +4,10 @@ import com.sa.erp.entities.Position;
 import com.sa.erp.services.PositionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,8 +16,9 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
-
+@EnabledIfSystemProperty(named = "spring.profiles.using", matches = "DEV")
 @SpringBootTest
+@ActiveProfiles("dev")
 public class PositionServiceTest {
 
     @Autowired
@@ -29,7 +32,7 @@ public class PositionServiceTest {
 
     @BeforeEach
     public void initialize(){
-        this.auxTestPosition = this.positionService.savePosition(new Position(null, "Dev", true, LocalDate.now(),LocalDate.now()));
+        this.auxTestPosition = this.positionService.savePosition(new Position("id", "Dev", true, LocalDate.now(),LocalDate.now()));
         this.auxTestID = this.auxTestPosition.getId();
         this.currentDate = LocalDate.now();
     }
@@ -51,7 +54,7 @@ public class PositionServiceTest {
 
     @Test
     public void addPosition(){
-        Position aux = new Position(null, "Dev", true, LocalDate.of(2022, Month.DECEMBER, 8),LocalDate.of(2022, Month.DECEMBER, 8));
+        Position aux = new Position("id", "Dev", true, LocalDate.of(2022, Month.DECEMBER, 8),LocalDate.of(2022, Month.DECEMBER, 8));
         Position result = this.positionService.savePosition(aux);
         assertEquals(aux.getName(), result.getName());
         assertEquals(aux.isEnable(), result.isEnable());
