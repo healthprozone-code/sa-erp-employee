@@ -40,20 +40,15 @@ public class EmployeeController {
             @ApiResponse(responseCode = "204", description = "Employees not found or registered",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/")
-    public ResponseEntity<?> getAllEmployees(){
+    public ResponseEntity<?> getAllEmployees() {
         StopWatch sw = new StopWatch();
         sw.start();
         log.info("request from getAllEmployees");
         List<Employee> aux = employeeService.getAllEmployees();
-        if(!aux.isEmpty()){
-            log.debug("responseBody: {}  ms",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.OK).body(aux);
-        }else{
-            log.info("error in getAllEmployees");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Employees no found or registered"));
-        }
+        log.debug("responseBody: {}  ms", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.OK).body(aux);
     }
 
     @Operation(summary = "Get a employee by its id", method = "get")
@@ -127,21 +122,16 @@ public class EmployeeController {
             @ApiResponse(responseCode = "400", description = "Employee not saved",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @PostMapping("/")
-    public ResponseEntity<?> saveEmployee(@RequestBody Employee employee){
+    public ResponseEntity<?> saveEmployee(@RequestBody Employee employee) {
         StopWatch sw = new StopWatch();
         sw.start();
         log.info("request from saveEmployee");
         log.debug("requestBody: {}", employee);
         Employee aux = employeeService.saveEmployee(employee);
-        if(aux!=null){
-            log.debug("responseBody: {} ",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.CREATED).body(aux);
-        }else{
-            log.info("error in saveEmployee");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        log.debug("responseBody: {} ", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.CREATED).body(aux);
     }
 
     @Operation(summary = "Update a employee")
@@ -208,20 +198,15 @@ public class EmployeeController {
             @ApiResponse(responseCode = "204", description = "Employee not found or registered",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/nextbirthday")
-    public ResponseEntity<?> getNearestBirthdayEmployee(){
+    public ResponseEntity<?> getNearestBirthdayEmployee() {
         StopWatch sw = new StopWatch();
         sw.start();
         log.info("request from getNearestBirthdayEmployee");
         Employee aux = employeeService.getNextBirthdayPersonWithMongo();
-        if(aux!=null){
-            log.debug("responseBody: {} ",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.OK).body(aux);
-        }else{
-            log.info("error in getNearestBirthdayEmployee");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Employee no found or registered"));
-        }
+        log.debug("responseBody: {} ", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.OK).body(aux);
     }
 
 }

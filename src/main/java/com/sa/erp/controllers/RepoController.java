@@ -40,20 +40,15 @@ public class RepoController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))
     })
     @GetMapping("/")
-    public ResponseEntity<?> getAllRepos(){
+    public ResponseEntity<?> getAllRepos() {
         StopWatch sw = new StopWatch();
         sw.start();
         log.info("request from getAllRepos");
         List<Repo> aux = repoService.getAllRepos();
-        if(!aux.isEmpty()){
-            log.debug("responseBody: {} ",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.OK).body(aux);
-        }else{
-            log.info("error in getAllRepos");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Repos no found or registered"));
-        }
+        log.debug("responseBody: {} ", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.OK).body(aux);
     }
 
     @Operation(summary = "Get a repo by its id", method = "get")
@@ -95,21 +90,16 @@ public class RepoController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "json of the repo to save",
             content = @Content(schema = @Schema(implementation = Repo.class), mediaType = "application/json"))
     @PostMapping("/")
-    public ResponseEntity<?> saveRepo(@RequestBody Repo repo){
+    public ResponseEntity<?> saveRepo(@RequestBody Repo repo) {
         StopWatch sw = new StopWatch();
         sw.start();
         log.info("request from saveRepo");
         log.debug("requestBody ID: {}", repo);
         Repo aux = repoService.saveRepo(repo);
-        if(aux!=null){
-            log.debug("responseBody: {} ",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.CREATED).body(aux);
-        }else{
-            log.info("error in saveRepo");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Repo not saved"));
-        }
+        log.debug("responseBody: {} ", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.CREATED).body(aux);
     }
 
     @Operation(summary = "Update a repo")

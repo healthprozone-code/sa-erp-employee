@@ -39,20 +39,15 @@ public class PositionController {
             @ApiResponse(responseCode = "204", description = "Positions not found or registered",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @GetMapping("/")
-    public ResponseEntity<?> getAllPositions(){
+    public ResponseEntity<?> getAllPositions() {
         StopWatch sw = new StopWatch();
         sw.start();
         List<Position> aux = positionService.getAllPositions();
         log.info("request from getAllPosition");
-        if(!aux.isEmpty()){
-            log.debug("responseBody: {} ",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.OK).body(aux);
-        }else{
-            log.info("error in getAllPosition");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageErrorDto("204", "Positions no found or registered"));
-        }
+        log.debug("responseBody: {} ", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.OK).body(aux);
     }
 
     @Operation(summary = "Get a positions by its id", method = "get")
@@ -92,21 +87,17 @@ public class PositionController {
             @ApiResponse(responseCode = "400", description = "Position not saved",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageErrorDto.class)))})
     @PostMapping("/")
-    public ResponseEntity<?> savePosition(@RequestBody Position position){
+    public ResponseEntity<?> savePosition(@RequestBody Position position) {
         StopWatch sw = new StopWatch();
         sw.start();
         Position aux = positionService.savePosition(position);
         log.info("request from savePosition");
         log.debug("requestbody: {}", position);
-        if(aux!=null){
-            log.debug("responseBody: {} ",aux.toString());
-            sw.stop();
-            log.debug("time of performance {}",sw.getTotalTimeMillis());
-            return ResponseEntity.status(HttpStatus.CREATED).body(aux);
-        }else{
-            log.info("error in savePosition");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageErrorDto("400", "Position not saved"));
-        }
+        log.debug("responseBody: {} ", aux.toString());
+        sw.stop();
+        log.debug("time of performance {}", sw.getTotalTimeMillis());
+        return ResponseEntity.status(HttpStatus.CREATED).body(aux);
+
     }
 
     @Operation(summary = "Update a position")
