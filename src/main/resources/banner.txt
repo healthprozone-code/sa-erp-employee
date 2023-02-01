@@ -7,5 +7,5 @@
 
 ${Ansi.RED} :: Name - ${info.app.name}             
 ${Ansi.RED} :: Version - ${info.app.version}
-${Ansi.RED} :: Profile - ${spring.profiles.active} ${Ansi.DEFAULT}
+${Ansi.RED} :: Profile - ${spring.profiles.using} ${Ansi.DEFAULT}
                                                                                                                                                          
