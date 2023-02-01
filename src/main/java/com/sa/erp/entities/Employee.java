@@ -34,5 +34,6 @@ public class Employee {
     private Position position;
     private LocalDate createDate;
     private LocalDate updateDate;
+    private List<Repo> repoList;
 
 }
